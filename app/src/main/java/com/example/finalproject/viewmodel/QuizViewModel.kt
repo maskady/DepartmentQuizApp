@@ -25,10 +25,8 @@ class QuizViewModel : ViewModel() {
     init {
         viewModelScope.launch {
             try {
-                // Récupérer les 10 départements au hasard depuis le repository
                 val randomDepartments = departmentRepository.fetchRandomDepartments()
 
-                // Créer une question pour chaque département et les ajouter à la liste _questions
                 randomDepartments.forEach { department ->
                     val quizQuestion = QuizQuestion(
                         name = department.nom,

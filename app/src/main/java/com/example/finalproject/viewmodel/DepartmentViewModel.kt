@@ -26,7 +26,7 @@ class DepartmentViewModel : ViewModel() {
         fetchDepartments()
     }
 
-    private fun fetchDepartments() {
+    fun fetchDepartments() {
         viewModelScope.launch {
             _departments.value = DepartmentState.Loading
             try {

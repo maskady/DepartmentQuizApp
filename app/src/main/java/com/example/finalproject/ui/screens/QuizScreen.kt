@@ -15,6 +15,7 @@ import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -36,9 +37,8 @@ fun QuizScreen(
 ) {
     val quizState by quizViewModel.quizState.collectAsState()
     var userAnswer by remember { mutableStateOf("") }
-    var score by remember { mutableStateOf(0) }
+    var score by remember { mutableIntStateOf(0) }
     var isQuizFinished by remember { mutableStateOf(false) }
-
 
     Column(
         modifier = Modifier
