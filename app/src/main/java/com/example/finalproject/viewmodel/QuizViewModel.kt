@@ -35,25 +35,22 @@ class QuizViewModel : ViewModel() {
                     _questions.add(quizQuestion)
                 }
 
-                // Mettre à jour l'état avec les questions générées
                 _quizState.value = QuizState.Success(_questions)
             } catch (e: Exception) {
-                _quizState.value = QuizState.Error("Erreur lors du chargement des départements")
+                _quizState.value = QuizState.Error("${e.message}")
             }
         }
     }
 
-    // Obtenir la question suivante
     fun getNextQuestion(): QuizQuestion? {
         return if (currentIndex < _questions.size) {
             _questions[currentIndex]
         } else {
             println("Fin du quiz")
-            null // Fin du quiz
+            null
         }
     }
 
-    // Passer à la question suivante
     fun nextQuestion() {
         if (currentIndex < _questions.size) {
             currentIndex++

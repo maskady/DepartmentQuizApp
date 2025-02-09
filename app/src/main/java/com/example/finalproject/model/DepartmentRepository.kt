@@ -13,18 +13,15 @@ class DepartmentRepository {
 
     suspend fun fetchDepartments(): List<Department> {
         return try {
-            // Récupérer la liste des départements depuis l'API
             val departments = api.getDepartments()
 
-            // Modifier les départements 2A et 2B en leur attribuant le code 2
+            // Transform corsica department with letter into code department only numerical
             val modifiedDepartments = departments.map { department ->
                 when (department.code) {
-                    "2A", "2B" -> department.copy(code = "2") // Modifier le code des départements 2A et 2B
+                    "2A", "2B" -> department.copy(code = "2")
                     else -> department
                 }
             }
-
-            // Retourner la liste modifiée
             modifiedDepartments
         } catch (e: Exception) {
             throw e
@@ -33,8 +30,8 @@ class DepartmentRepository {
 
 
     suspend fun fetchRandomDepartments(count: Int = 10): List<Department> {
-        val departments = fetchDepartments() // Récupérer tous les départements
+        val departments = fetchDepartments()
         println(departments[0])
-        return departments.shuffled().take(count) // Mélanger et prendre les premiers 10
+        return departments.shuffled().take(count)
     }
 }

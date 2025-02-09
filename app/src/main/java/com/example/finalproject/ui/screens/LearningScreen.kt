@@ -10,7 +10,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import androidx.navigation.NavController
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.finalproject.R
 import com.example.finalproject.viewmodel.DepartmentViewModel
@@ -18,7 +17,7 @@ import com.example.finalproject.model.Department
 import com.example.finalproject.viewmodel.DepartmentState
 
 @Composable
-fun LearningScreen(navController: NavController, bottomHeight: Dp) {
+fun LearningScreen(bottomHeight: Dp) {
     val departmentViewModel: DepartmentViewModel = viewModel()
     val departmentState by departmentViewModel.departments.collectAsState()
 
@@ -31,22 +30,18 @@ fun LearningScreen(navController: NavController, bottomHeight: Dp) {
 
         when (departmentState) {
             is DepartmentState.Loading -> {
-                // Affiche un indicateur de chargement pendant le chargement des données
                 CircularProgressIndicator(modifier = Modifier.align(Alignment.CenterHorizontally))
             }
             is DepartmentState.Error -> {
-                // Affiche un message d'erreur en cas de problème de chargement
-                val errorMessage =
-                    stringResource(R.string.loading_error)
+
                 Text(
-                    text = stringResource(R.string.error, errorMessage),
+                    text = stringResource(R.string.loading_error),
                     color = MaterialTheme.colorScheme.error,
                     style = MaterialTheme.typography.bodyLarge,
                     modifier = Modifier.align(Alignment.CenterHorizontally)
                 )
             }
             is DepartmentState.Success -> {
-                // Affiche la liste des départements lorsque les données sont chargées avec succès
                 LazyColumn(modifier = Modifier.weight(1f)) {
                     items((departmentState as DepartmentState.Success).departments) { department ->
                         DepartmentItem(department = department)

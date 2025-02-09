@@ -36,7 +36,6 @@ import com.example.finalproject.viewmodel.QuizViewModel
 @SuppressLint("MutableCollectionMutableState")
 @Composable
 fun NameToNumQuizScreen(
-    navController: NavController,
     quizViewModel: QuizViewModel = viewModel(),
     bottomHeight: Dp
 ) {
@@ -56,9 +55,9 @@ fun NameToNumQuizScreen(
                 CircularProgressIndicator(modifier = Modifier.align(Alignment.CenterHorizontally))
             }
             is QuizState.Error -> {
-                val errorMessage = stringResource(R.string.loading_error)
+
                 Text(
-                    text = stringResource(R.string.error, errorMessage),
+                    text = stringResource(R.string.loading_error),
                     color = MaterialTheme.colorScheme.error,
                     style = MaterialTheme.typography.bodyLarge,
                     modifier = Modifier.align(Alignment.CenterHorizontally)
@@ -114,7 +113,7 @@ fun NameToNumQuizScreen(
                             if (quizViewModel.getNextQuestion() == null) {
                                 isQuizFinished = true
                             } else {
-                                userAnswer = "" // Réinitialiser l'input
+                                userAnswer = ""
                             }
 
                         },

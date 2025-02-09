@@ -18,7 +18,7 @@ class DepartmentViewModel : ViewModel() {
 
     private val repository = DepartmentRepository()
 
-    // Utilisation d'un StateFlow pour gérer les états
+    // Manage the state to show error and loader
     private val _departments = MutableStateFlow<DepartmentState>(DepartmentState.Loading)
     val departments: StateFlow<DepartmentState> = _departments
 
@@ -33,7 +33,7 @@ class DepartmentViewModel : ViewModel() {
                 val result = repository.fetchDepartments()
                 _departments.value = DepartmentState.Success(result)
             } catch (e: Exception) {
-                _departments.value = DepartmentState.Error("Echec du chargement: ${e.message}")
+                _departments.value = DepartmentState.Error("${e.message}")
             }
         }
     }

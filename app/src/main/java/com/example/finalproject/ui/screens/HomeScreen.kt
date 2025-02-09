@@ -19,7 +19,7 @@ import com.example.finalproject.R
 
 @Composable
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
-fun HomeScreen(navController: NavController, modifier : Modifier) {
+fun HomeScreen(navController: NavController) {
     Column(modifier = Modifier.fillMaxSize().padding(16.dp)) {
         Column(
             modifier = Modifier.fillMaxSize(),
@@ -32,17 +32,17 @@ fun HomeScreen(navController: NavController, modifier : Modifier) {
                 .padding(8.dp)
 
             Button(
-                onClick = { navController.navigate("quiz_nom_to_num") },
+                onClick = { navController.navigate("quiz_name_to_num") },
                 modifier = buttonModifier
             ) {
-                Text(stringResource(R.string.quiz_1))
+                Text(stringResource(R.string.quiz_num))
             }
 
             Button(
-                onClick = { navController.navigate("quiz_num_to_nom") },
+                onClick = { navController.navigate("quiz_num_to_name") },
                 modifier = buttonModifier
             ) {
-                Text(stringResource(R.string.quiz_2))
+                Text(stringResource(R.string.quiz_name))
             }
         }
     }

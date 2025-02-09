@@ -24,7 +24,6 @@ import com.example.finalproject.viewmodel.DepartmentViewModel
 @SuppressLint("MutableCollectionMutableState")
 @Composable
 fun NumToNameQuizScreen(
-    navController: NavController,
     departmentViewModel: DepartmentViewModel = viewModel(),
     bottomHeight: Dp
 ) {

@@ -1,10 +1,10 @@
 package com.example.finalproject
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Icon
@@ -28,25 +28,21 @@ import com.example.finalproject.ui.screens.HomeScreen
 import com.example.finalproject.ui.screens.NameToNumQuizScreen
 import com.example.finalproject.ui.screens.NumToNameQuizScreen
 import com.example.finalproject.ui.theme.FinalProjectTheme
-import java.util.jar.Attributes.Name
 
-val bottomNavigationHeight = 56.dp // Taille maximale de la barre de navigation
+val bottomNavigationHeight = 56.dp // Max size for the navigation bottom bar
 
 class MainActivity : ComponentActivity() {
+    @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
             FinalProjectTheme {
                 val navController = rememberNavController()
-
-                // Ajouter les écrans et la barre de navigation
                 Scaffold(
                     bottomBar = { BottomNavigationBar(navController, bottomNavigationHeight) }
-                ) { paddingValues ->
-                    // Définir les écrans à afficher en prenant en compte le padding
+                ) {
                     NavigationHost(
                         navController = navController,
-                        modifier = Modifier.padding(paddingValues),
                         bottomHeight = bottomNavigationHeight
                     )
                 }
@@ -56,13 +52,12 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-fun NavigationHost(navController: NavHostController, modifier: Modifier, bottomHeight: Dp){
+fun NavigationHost(navController: NavHostController, bottomHeight: Dp){
     NavHost(navController = navController, startDestination = "home") {
-        composable("home") { HomeScreen(navController, modifier) }
-        composable("learning") { LearningScreen(navController, bottomHeight) }
-        composable("quiz_nom_to_num") { NameToNumQuizScreen(navController, bottomHeight = bottomHeight) }
-        composable("quiz_num_to_nom") { NumToNameQuizScreen(navController, bottomHeight = bottomHeight) }
-        composable("quiz_mixed") { /* Composable pour quiz Mode Mélangé */ }
+        composable("home") { HomeScreen(navController) }
+        composable("learning") { LearningScreen(bottomHeight) }
+        composable("quiz_name_to_num") { NameToNumQuizScreen(bottomHeight = bottomHeight) }
+        composable("quiz_num_to_name") { NumToNameQuizScreen(bottomHeight = bottomHeight) }
     }
 }
 
@@ -70,14 +65,14 @@ fun NavigationHost(navController: NavHostController, modifier: Modifier, bottomH
 @Composable
 fun BottomNavigationBar(navController: NavController, bottomNavigationHeight: Dp) {
     NavigationBar(
-        modifier = Modifier.height(bottomNavigationHeight) // Applique la hauteur maximale ici
+        modifier = Modifier.height(bottomNavigationHeight)
     ) {
         NavigationBarItem(
             icon = { Icon(Icons.Filled.Home, contentDescription = "Home") },
             label = { Text(stringResource(R.string.home)) },
             selected = false,
             onClick = {
-                navController.navigate("home") // Navigation vers l'écran d'accueil
+                navController.navigate("home")
             }
         )
         NavigationBarItem(
@@ -85,7 +80,7 @@ fun BottomNavigationBar(navController: NavController, bottomNavigationHeight: Dp
             label = { Text(stringResource(R.string.learning)) },
             selected = false,
             onClick = {
-                navController.navigate("learning") // Navigation vers l'écran d'apprentissage
+                navController.navigate("learning")
             }
         )
     }
