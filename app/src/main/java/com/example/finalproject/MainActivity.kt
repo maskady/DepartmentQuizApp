@@ -25,6 +25,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.finalproject.ui.screens.LearningScreen
 import com.example.finalproject.ui.screens.HomeScreen
+import com.example.finalproject.ui.screens.QuizScreen
 import com.example.finalproject.ui.theme.FinalProjectTheme
 
 val bottomNavigationHeight = 56.dp // Taille maximale de la barre de navigation
@@ -57,7 +58,7 @@ fun NavigationHost(navController: NavHostController, modifier: Modifier, bottomH
     NavHost(navController = navController, startDestination = "home") {
         composable("home") { HomeScreen(navController, modifier) }
         composable("learning") { LearningScreen(navController, bottomHeight) }
-        composable("quiz_nom_to_num") { /* Composable pour quiz Nom → Numéro */ }
+        composable("quiz_nom_to_num") { QuizScreen(navController) }
         composable("quiz_num_to_nom") { /* Composable pour quiz Numéro → Nom */ }
         composable("quiz_mixed") { /* Composable pour quiz Mode Mélangé */ }
     }

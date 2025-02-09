@@ -1,4 +1,66 @@
 package com.example.finalproject.viewmodel
 
-class QuizViewModel {
+import androidx.compose.runtime.mutableStateListOf
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.example.finalproject.model.DepartmentRepository
+import com.example.finalproject.model.QuizQuestion
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.launch
+
+sealed class QuizState {
+    object Loading : QuizState()
+    data class Success(val questions: List<QuizQuestion>) : QuizState()
+    data class Error(val message: String) : QuizState()
 }
+
+class QuizViewModel : ViewModel() {
+    private val departmentRepository = DepartmentRepository()
+    private val _questions = mutableStateListOf<QuizQuestion>()
+    var currentIndex = 0
+    private val _quizState = MutableStateFlow<QuizState>(QuizState.Loading)
+    val quizState: StateFlow<QuizState> = _quizState
+
+    init {
+        viewModelScope.launch {
+            try {
+                // Récupérer les 10 départements au hasard depuis le repository
+                val randomDepartments = departmentRepository.fetchRandomDepartments()
+
+                // Créer une question pour chaque département et les ajouter à la liste _questions
+                randomDepartments.forEach { department ->
+                    val quizQuestion = QuizQuestion(
+                        name = department.nom,
+                        number = department.code.toInt()
+                    )
+                    _questions.add(quizQuestion)
+                }
+
+                // Mettre à jour l'état avec les questions générées
+                _quizState.value = QuizState.Success(_questions)
+            } catch (e: Exception) {
+                _quizState.value = QuizState.Error("Erreur lors du chargement des départements")
+            }
+        }
+    }
+
+    // Obtenir la question suivante
+    fun getNextQuestion(): QuizQuestion? {
+        return if (currentIndex < _questions.size) {
+            _questions[currentIndex]
+        } else {
+            println("Fin du quiz")
+            null // Fin du quiz
+        }
+    }
+
+    // Passer à la question suivante
+    fun nextQuestion() {
+        if (currentIndex < _questions.size) {
+            currentIndex++
+            println("Current index" + currentIndex + "size" + _questions.size)
+        }
+    }
+}
+

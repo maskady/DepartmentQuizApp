@@ -1,5 +1,6 @@
 package com.example.finalproject.model
 
 data class QuizQuestion(
-    val code: String
+    val name: String,
+    val number: Int
 )
