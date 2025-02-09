@@ -44,13 +44,6 @@ fun HomeScreen(navController: NavController, modifier : Modifier) {
             ) {
                 Text(stringResource(R.string.quiz_2))
             }
-
-            Button(
-                onClick = { navController.navigate("quiz_mixed") },
-                modifier = buttonModifier
-            ) {
-                Text(stringResource(R.string.quiz_3))
-            }
         }
     }
 }

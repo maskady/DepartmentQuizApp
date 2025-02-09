@@ -1,5 +1,6 @@
 package com.example.finalproject.ui.screens
 
+import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -15,7 +16,6 @@ import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -23,22 +23,28 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 import com.example.finalproject.R
+import com.example.finalproject.model.AnsweredQuestion
+import com.example.finalproject.model.Score
 import com.example.finalproject.viewmodel.QuizState
 import com.example.finalproject.viewmodel.QuizViewModel
 
+@SuppressLint("MutableCollectionMutableState")
 @Composable
-fun QuizScreen(
+fun NameToNumQuizScreen(
     navController: NavController,
-    quizViewModel: QuizViewModel = viewModel()
+    quizViewModel: QuizViewModel = viewModel(),
+    bottomHeight: Dp
 ) {
     val quizState by quizViewModel.quizState.collectAsState()
     var userAnswer by remember { mutableStateOf("") }
-    var score by remember { mutableIntStateOf(0) }
+    val score = remember { mutableStateOf(Score()) }
     var isQuizFinished by remember { mutableStateOf(false) }
+    val answeredQuestions by remember { mutableStateOf(mutableListOf<AnsweredQuestion>()) }
 
     Column(
         modifier = Modifier
@@ -65,13 +71,20 @@ fun QuizScreen(
 
                 if (currentQuestion != null && !isQuizFinished) {
                     Text(
-                        text = "Question ${quizViewModel.currentIndex + 1}/$totalQuestions",
+                        text = stringResource(
+                            R.string.question,
+                            quizViewModel.currentIndex + 1,
+                            totalQuestions
+                        ),
                         style = MaterialTheme.typography.titleMedium,
                         modifier = Modifier.padding(bottom = 8.dp)
                     )
 
                     Text(
-                        text = "Quel est le numéro du département de ${currentQuestion.name} ?",
+                        text = stringResource(
+                            R.string.what_is_the_department_number_of,
+                            currentQuestion.name
+                        ),
                         style = MaterialTheme.typography.headlineSmall,
                         modifier = Modifier.padding(bottom = 16.dp)
                     )
@@ -79,7 +92,7 @@ fun QuizScreen(
                     TextField(
                         value = userAnswer,
                         onValueChange = { userAnswer = it },
-                        label = { Text("Entrez le numéro du département") },
+                        label = { Text(stringResource(R.string.enter_department_number)) },
                         modifier = Modifier
                             .fillMaxWidth()
                             .padding(bottom = 16.dp),
@@ -88,39 +101,37 @@ fun QuizScreen(
 
                     Button(
                         onClick = {
-                            if (userAnswer == currentQuestion.number.toString()) {
-                                score++
-                            }
+                            val isCorrect = userAnswer == currentQuestion.number.toString()
+                            score.value.increment(isCorrect)
+                            answeredQuestions.add(AnsweredQuestion(
+                                departmentCode = currentQuestion.number.toString(),
+                                correctName = currentQuestion.name,
+                                userAnswer = userAnswer,
+                                isNameToNum = true,
+                                isCorrect = isCorrect
+                            ))
                             quizViewModel.nextQuestion()
                             if (quizViewModel.getNextQuestion() == null) {
                                 isQuizFinished = true
                             } else {
                                 userAnswer = "" // Réinitialiser l'input
                             }
+
                         },
                         modifier = Modifier.fillMaxWidth()
                     ) {
-                        Text("Vérifier")
+                        Text(text = stringResource(R.string.submit))
                     }
 
                     Spacer(modifier = Modifier.height(16.dp))
                     Text(
-                        text = "Score actuel : $score",
+                        text = stringResource(R.string.actual_score, score.value.currentScore),
                         style = MaterialTheme.typography.bodyLarge
                     )
                 }
 
                 if (isQuizFinished) {
-                    Text(
-                        text = "Quiz terminé ! Votre score final est : $score",
-                        style = MaterialTheme.typography.headlineMedium,
-                        modifier = Modifier.padding(top = 32.dp)
-                    )
-                    Text(
-                        text = "Score final : $score/$totalQuestions",
-                        style = MaterialTheme.typography.titleLarge,
-                        modifier = Modifier.padding(top = 8.dp)
-                    )
+                    ScoreScreen(answeredQuestions, score.value, bottomHeight = bottomHeight)
                 }
             }
         }

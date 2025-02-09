@@ -7,7 +7,22 @@
     <string name="error">Error: %1$s</string>
     <string name="name">Name: %1$s</string>
     <string name="number">Number: %1$s</string>
-    <string name="quiz_1">Quiz 1</string>
-    <string name="quiz_2">Quiz 2</string>
-    <string name="quiz_3">Quiz 3</string>
+    <string name="quiz_1">Find the Number</string>
+    <string name="quiz_2">Find the Name</string>
+    <string name="submit">Submit</string>
+    <string name="please_select_a_department_in_the_list">Please select a department in the list</string>
+    <string name="enter_department_name">Enter department name</string>
+    <string name="what_is_department_name_associated_to">What is department name associated to %1$s ?</string>
+    <string name="question_10">Question %1$s/10</string>
+    <string name="score">Score : %1$s</string>
+    <string name="quiz_completed">Quiz completed !</string>
+    <string name="score_final">Score final : %1$s/%2$s</string>
+    <string name="correct">Correct : %1$s</string>
+    <string name="your_answer">Your answer : %1$s</string>
+    <string name="correct_word">Correct</string>
+    <string name="incorrect">Incorrect</string>
+    <string name="actual_score">Actual score: %1$s</string>
+    <string name="enter_department_number">Enter department number</string>
+    <string name="what_is_the_department_number_of">What is the department number of %1$s ?</string>
+    <string name="question">Question %1$s/%2$s</string>
 </resources>
