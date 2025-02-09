@@ -33,7 +33,7 @@ class DepartmentViewModel : ViewModel() {
                 val result = repository.fetchDepartments()
                 _departments.value = DepartmentState.Success(result)
             } catch (e: Exception) {
-                _departments.value = DepartmentState.Error("Failed to load departments: ${e.message}")
+                _departments.value = DepartmentState.Error("Echec du chargement: ${e.message}")
             }
         }
     }

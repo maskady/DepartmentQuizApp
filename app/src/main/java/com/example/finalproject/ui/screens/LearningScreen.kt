@@ -7,10 +7,12 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.example.finalproject.R
 import com.example.finalproject.viewmodel.DepartmentViewModel
 import com.example.finalproject.model.Department
 import com.example.finalproject.viewmodel.DepartmentState
@@ -20,8 +22,10 @@ fun LearningScreen(navController: NavController, bottomHeight: Dp) {
     val departmentViewModel: DepartmentViewModel = viewModel()
     val departmentState by departmentViewModel.departments.collectAsState()
 
-    Column(modifier = Modifier.fillMaxSize().padding(16.dp)) {
-        Text(text = "Departments")
+    Column(modifier = Modifier
+        .fillMaxSize()
+        .padding(16.dp)) {
+        Text(text = stringResource(R.string.departments))
 
         Spacer(modifier = Modifier.height(16.dp))
 
@@ -32,9 +36,10 @@ fun LearningScreen(navController: NavController, bottomHeight: Dp) {
             }
             is DepartmentState.Error -> {
                 // Affiche un message d'erreur en cas de problème de chargement
-                val errorMessage = "Il y a eu une erreur lors du chargement des données."
+                val errorMessage =
+                    stringResource(R.string.loading_error)
                 Text(
-                    text = "Erreur : $errorMessage",
+                    text = stringResource(R.string.error, errorMessage),
                     color = MaterialTheme.colorScheme.error,
                     style = MaterialTheme.typography.bodyLarge,
                     modifier = Modifier.align(Alignment.CenterHorizontally)
@@ -56,11 +61,12 @@ fun LearningScreen(navController: NavController, bottomHeight: Dp) {
 
 @Composable
 fun DepartmentItem(department: Department) {
-    Card(modifier = Modifier.fillMaxWidth().padding(8.dp)) {
+    Card(modifier = Modifier
+        .fillMaxWidth()
+        .padding(8.dp)) {
         Column(modifier = Modifier.padding(16.dp)) {
-            Text(text = "Nom: ${department.nom}")
-            Text(text = "Numéro: ${department.code}")
+            Text(text = stringResource(R.string.name, department.nom))
+            Text(text = stringResource(R.string.number, department.code))
         }
     }
 }
-

@@ -1,3 +1,13 @@
 <resources>
     <string name="app_name">FinalProject</string>
+    <string name="home">Home</string>
+    <string name="learning">Learning</string>
+    <string name="departments">Departments</string>
+    <string name="loading_error">There was an error loading the data.</string>
+    <string name="error">Error: %1$s</string>
+    <string name="name">Name: %1$s</string>
+    <string name="number">Number: %1$s</string>
+    <string name="quiz_1">Quiz 1</string>
+    <string name="quiz_2">Quiz 2</string>
+    <string name="quiz_3">Quiz 3</string>
 </resources>

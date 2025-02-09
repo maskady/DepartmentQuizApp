@@ -15,6 +15,7 @@ import androidx.compose.material.icons.filled.School
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
@@ -54,7 +55,7 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun NavigationHost(navController: NavHostController, modifier: Modifier, bottomHeight: Dp){
     NavHost(navController = navController, startDestination = "home") {
-        composable("home") { HomeScreen(navController) }
+        composable("home") { HomeScreen(navController, modifier) }
         composable("learning") { LearningScreen(navController, bottomHeight) }
         composable("quiz_nom_to_num") { /* Composable pour quiz Nom → Numéro */ }
         composable("quiz_num_to_nom") { /* Composable pour quiz Numéro → Nom */ }
@@ -70,7 +71,7 @@ fun BottomNavigationBar(navController: NavController, bottomNavigationHeight: Dp
     ) {
         NavigationBarItem(
             icon = { Icon(Icons.Filled.Home, contentDescription = "Home") },
-            label = { Text("Accueil") },
+            label = { Text(stringResource(R.string.home)) },
             selected = false,
             onClick = {
                 navController.navigate("home") // Navigation vers l'écran d'accueil
@@ -78,7 +79,7 @@ fun BottomNavigationBar(navController: NavController, bottomNavigationHeight: Dp
         )
         NavigationBarItem(
             icon = { Icon(Icons.Filled.School, contentDescription = "Apprentissage") },
-            label = { Text("Apprentissage") },
+            label = { Text(stringResource(R.string.learning)) },
             selected = false,
             onClick = {
                 navController.navigate("learning") // Navigation vers l'écran d'apprentissage
